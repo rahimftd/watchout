@@ -113,7 +113,7 @@ var moveAllEnemies = function() {
 
 var player = new Player(playerR, svgWidth / 2, svgHeight / 2);
 
-generateEnemies(25);
+generateEnemies(35);
 
 // Move all enemies
 setInterval(moveAllEnemies, moveFrequency);
