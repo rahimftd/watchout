@@ -5,7 +5,7 @@ var svgWidth = 699;
 // General program attributes
 var moveFrequency = 1000;
 var moveTransitionTime = 500;
-var scoreCheckInterval = 1;
+var scoreCheckInterval = 100;
 
 // Enemy attributes
 var enemies = [];
@@ -32,6 +32,7 @@ var Player = function(r, x, y) {
   this.r = r;
   this.highScore = 0;
   this.currentScore = 0;
+  this.collisions = 0;
   this.shape = svg.append('circle').attr('r', this.r).attr('cx', x).attr('cy', y).attr('class', 'player').attr('fill', playerColor).call(drag);
 };
 Player.prototype.checkIfTouchingEnemy = function() {
@@ -49,6 +50,8 @@ Player.prototype.checkIfTouchingEnemy = function() {
 
     if (((playerMinX >= enemyMinX && playerMinX <= enemyMaxX) || (playerMaxX >= enemyMinX && playerMaxX <= enemyMaxX)) && ((playerMinY >= enemyMinY && playerMinY <= enemyMaxY) || (playerMaxY >= enemyMinY && playerMaxY <= enemyMaxY))) {
       didItCollide = true;
+      this.collisions++;
+      break;
     }
   }
   return didItCollide;
@@ -72,6 +75,7 @@ Player.prototype.updateScore = function(checkInterval) {
   }
   d3.select('.highscore').html('High score: ' + parseInt(this.highScore));
   d3.select('.current').html('Current score: ' + parseInt(this.currentScore));
+  d3.select('.collisions').html('Collisions: ' + parseInt(this.collisions));
 };
 
 // Enemy class
@@ -109,7 +113,7 @@ var moveAllEnemies = function() {
 
 var player = new Player(playerR, svgWidth / 2, svgHeight / 2);
 
-generateEnemies(20);
+generateEnemies(25);
 
 // Move all enemies
 setInterval(moveAllEnemies, moveFrequency);

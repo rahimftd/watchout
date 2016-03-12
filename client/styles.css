@@ -12,6 +12,10 @@ Feel free to use it if you like. */
 .col-6 {
   width: 50%;
 }
+
+.col-9 {
+  width: 75%;
+}
 .header {
   display: flex;
   background-color: #585858;
@@ -35,6 +39,7 @@ Feel free to use it if you like. */
   height: 100%;
   font-size: 18px;
   font-weight: bold;
+  background-color: gray;
 }
 .game-area {
   height: 100%;
