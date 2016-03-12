@@ -9,7 +9,7 @@ var scoreCheckInterval = 1;
 
 // Enemy attributes
 var enemies = [];
-var enemyR = 20; // radius
+var enemyR = 10; // radius
 
 // Player attributes
 var playerColor = 'orange';
@@ -27,16 +27,16 @@ var drag = d3.behavior.drag().on('drag', function() {
   } 
 });
 
-
+var count = 0;
 // Player class
 var Player = function(r, x, y) {
   this.r = r;
   this.highScore = 0;
   this.currentScore = 0;
   this.shape = svg.append('circle').attr('r', this.r).attr('cx', x).attr('cy', y).attr('class', 'player').attr('fill', playerColor).call(drag);
-}
+};
 Player.prototype.checkIfTouchingEnemy = function() {
-  debugger;
+
   for (var i = 0; i < enemies.length; i++) {
     var enemyMaxX = Number(enemies[i].shape.attr('cx')) + (enemies[i].r);
     var enemyMinX = Number(enemies[i].shape.attr('cx')) - (enemies[i].r);
@@ -48,11 +48,10 @@ Player.prototype.checkIfTouchingEnemy = function() {
     var playerMaxY = Number(this.shape.attr('cy')) + (this.r);
     var playerMinY = Number(this.shape.attr('cy')) - (this.r);
 
-    if (((playerMinX >= enemyMinX && playerMinX <= enemyMaxX) ||  (playerMaxX >= enemyMinX && playerMaxX <= enemyMaxX)) && ((playerMinY >= enemyMinY && playerMinY <= enemyMaxY) ||  (playerMaxY >= enemyMinY && playerMaxY <= enemyMaxY))) {
-      console.log('touching');
-      return true;
+    if (((playerMinX >= enemyMinX && playerMinX <= enemyMaxX) || (playerMaxX >= enemyMinX && playerMaxX <= enemyMaxX)) && ((playerMinY >= enemyMinY && playerMinY <= enemyMaxY) || (playerMaxY >= enemyMinY && playerMaxY <= enemyMaxY))) {
+      count++;
+      console.log(count);
     } else {
-      return false;
     }
   }
 };
@@ -105,7 +104,7 @@ var generateNewPositionsArray = function() {
 };
 
 var moveAllEnemies = function() {
-  svg.selectAll('.enemy').data(generateNewPositionsArray()).transition().duration(moveTransitionTime).attr('cx', function(data) { return data.x }).attr('cy', function(data) { return data.y });
+  svg.selectAll('.enemy').data(generateNewPositionsArray()).transition().duration(moveTransitionTime).ease('linear').attr('cx', function(data) { return data.x; }).attr('cy', function(data) { return data.y; });
 };
 
 var player = new Player(playerR, svgWidth / 2, svgHeight / 2);
