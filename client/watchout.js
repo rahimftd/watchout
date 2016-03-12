@@ -3,8 +3,8 @@ var svgHeight = 502;
 var svgWidth = 699;
 
 // General program attributes
-var moveFrequency = 3000;
-var moveTransitionTime = 1000;
+var moveFrequency = 1000;
+var moveTransitionTime = 500;
 var scoreCheckInterval = 1;
 
 // Enemy attributes
@@ -27,7 +27,6 @@ var drag = d3.behavior.drag().on('drag', function() {
   } 
 });
 
-var count = 0;
 // Player class
 var Player = function(r, x, y) {
   this.r = r;
@@ -36,7 +35,7 @@ var Player = function(r, x, y) {
   this.shape = svg.append('circle').attr('r', this.r).attr('cx', x).attr('cy', y).attr('class', 'player').attr('fill', playerColor).call(drag);
 };
 Player.prototype.checkIfTouchingEnemy = function() {
-
+  var didItCollide = false;
   for (var i = 0; i < enemies.length; i++) {
     var enemyMaxX = Number(enemies[i].shape.attr('cx')) + (enemies[i].r);
     var enemyMinX = Number(enemies[i].shape.attr('cx')) - (enemies[i].r);
@@ -49,29 +48,30 @@ Player.prototype.checkIfTouchingEnemy = function() {
     var playerMinY = Number(this.shape.attr('cy')) - (this.r);
 
     if (((playerMinX >= enemyMinX && playerMinX <= enemyMaxX) || (playerMaxX >= enemyMinX && playerMaxX <= enemyMaxX)) && ((playerMinY >= enemyMinY && playerMinY <= enemyMaxY) || (playerMaxY >= enemyMinY && playerMaxY <= enemyMaxY))) {
-      count++;
-      console.log(count);
-    } else {
+      didItCollide = true;
     }
   }
+  return didItCollide;
 };
 Player.prototype.updateScore = function(checkInterval) {
-  var scoreChange = checkInterval / 100;
+  var scoreChange = checkInterval / 10;
   if (this.checkIfTouchingEnemy()) {
     if (this.currentScore > this.highScore) {
       this.highScore = this.currentScore;
     }
     this.currentScore = 0;
-    // console.log('currentScore: ' + this.currentScore);
-    // console.log('highScore: ' + this.highScore);
+    console.log('currentScore: ' + this.currentScore);
+    console.log('highScore: ' + this.highScore);
   } else {
     this.currentScore += scoreChange;
     if (this.currentScore > this.highScore) {
       this.highScore = this.currentScore;
     }
-    // console.log('currentScore: ' + this.currentScore);
-    // console.log('highScore: ' + this.highScore);
+    console.log('currentScore: ' + this.currentScore);
+    console.log('highScore: ' + this.highScore);
   }
+  d3.select('.highscore').html('High score: ' + parseInt(this.highScore));
+  d3.select('.current').html('Current score: ' + parseInt(this.currentScore));
 };
 
 // Enemy class
