@@ -21,12 +21,17 @@ Feel free to use it if you like. */
   font-weight: bold;
 }
 .gamespace {
-  background-color: #000000;
+  background-color: #FFFFFF;
   height: 500px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: black;
+}
+.svg {
+  display: block;
 }
 .scoreboard {
   float: right;
-  clear: right;
   background-color: #e6e6e6;
   margin-right: 10px;
   margin-top: 10px;
