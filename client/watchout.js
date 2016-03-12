@@ -63,15 +63,11 @@ Player.prototype.updateScore = function(checkInterval) {
       this.highScore = this.currentScore;
     }
     this.currentScore = 0;
-    console.log('currentScore: ' + this.currentScore);
-    console.log('highScore: ' + this.highScore);
   } else {
     this.currentScore += scoreChange;
     if (this.currentScore > this.highScore) {
       this.highScore = this.currentScore;
     }
-    console.log('currentScore: ' + this.currentScore);
-    console.log('highScore: ' + this.highScore);
   }
   d3.select('.highscore').html('High score: ' + parseInt(this.highScore));
   d3.select('.current').html('Current score: ' + parseInt(this.currentScore));
